@@ -12,37 +12,37 @@ import static java.util.Optional.ofNullable;
 public interface Action {
 
     /**
-     * red状态描述
+     * producer状态描述
      */
-    Desc getRed();
+    Desc getProducer();
 
     /**
-     * blue状态描述
+     * consumer状态描述
      */
-    Desc getBlue();
+    Desc getConsumer();
 
     /**
-     * red按钮
+     * producer按钮
      */
-    Desc[] getRedBtn();
+    Desc[] getProducerBtn();
 
     /**
-     * blue按钮
+     * consumer按钮
      */
-    Desc[] getBlueBtn();
+    Desc[] getConsumerBtn();
 
     /**
-     * red权限
+     * producer权限
      */
-    default String getRedPermission() {
-        return processPermission(getRedBtn());
+    default String getProducerPermission() {
+        return processPermission(getProducerBtn());
     }
 
     /**
-     * blue权限
+     * consumer权限
      */
-    default String getBluePermission() {
-        return processPermission(getBlueBtn());
+    default String getConsumerPermission() {
+        return processPermission(getConsumerBtn());
     }
 
     default String processPermission(Desc[] btn) {
