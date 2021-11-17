@@ -13,10 +13,10 @@ import static java.util.Optional.ofNullable;
  *
  * @author w.dehi.2021-11-17
  */
-public class ButtonHelper<R, C, V extends Action> {
+public class ButtonHelper<R extends Enum<?>, C, V extends Action> {
 
-    private final String errorMsg = "错误状态";
-    private final String emptyBtn = "0";
+    public final String ERROR_DESC = "错误状态";
+    public final String EMPTY_BUTTON = "0";
 
     private final Table<R, C, V> table = HashBasedTable.create();
 
@@ -31,52 +31,86 @@ public class ButtonHelper<R, C, V extends Action> {
             V v = (V) action;
             table.put(r, c, v);
         }
-
     }
 
+    /**
+     * 获取生产者状态
+     *
+     * @param r 行
+     * @param c 列
+     * @return 返回生产者状态字符串
+     */
     public String getProducerDesc(R r, C c) {
         return ofNullable(table.get(r, c))
                 .map(Action::getProducer)
                 .map(Desc::getDesc)
-                .orElse(errorMsg);
+                .orElse(ERROR_DESC);
     }
 
+    /**
+     * 获取消费者状态
+     *
+     * @param r 行
+     * @param c 列
+     * @return 返回消费者状态字符串
+     */
     public String getConsumerDesc(R r, C c) {
         return ofNullable(table.get(r, c))
                 .map(Action::getConsumer)
                 .map(Desc::getDesc)
-                .orElse(errorMsg);
+                .orElse(ERROR_DESC);
     }
 
-    public <Q extends String> String getProducerDesc(R r, C c, Function<Desc, Q> ops) {
-        V v = getValue(r, c);
-        Desc producer = v.getProducer();
-        return ops.apply(producer);
+    /**
+     * 获取生产者状态
+     *
+     * @param r 行
+     * @param c 列
+     * @param <Q> 如果默认返回值不满足，可以自定义返回值
+     * @return 返回生产者状态字符串
+     */
+    public <Q extends String> String getProducerDesc(R r, C c, Function<String, Q> ops) {
+        String desc = getProducerDesc(r, c);
+        return ops.apply(desc);
     }
 
-    public <Q extends String> String getConsumerDesc(R r, C c, Function<Desc, Q> ops) {
-        V v = getValue(r, c);
-        Desc producer = v.getConsumer();
-        return ops.apply(producer);
+    /**
+     * 获取消费者状态
+     *
+     * @param r 行
+     * @param c 列
+     * @param <Q> 如果默认返回值不满足，可以自定义返回值
+     * @return 返回消费者状态字符串
+     */
+    public <Q extends String> String getConsumerDesc(R r, C c, Function<String, Q> ops) {
+        String desc = getConsumerDesc(r, c);
+        return ops.apply(desc);
     }
 
-    private V getValue(R r, C c) {
-        V v = table.get(r, c);
-        if (v == null)
-            throw new IllegalArgumentException("传入的参数无对应的值, [r = " + r + ", c = " + c + "]");
-        return v;
-    }
-
+    /**
+     * 获取生产者按钮
+     *
+     * @param r 行
+     * @param c 列
+     * @return 返回生产者所拥有的按钮列表
+     */
     public String getProducerPermission(R r, C c) {
         return ofNullable(table.get(r, c))
                 .map(Action::getProducerPermission)
-                .orElse(emptyBtn);
+                .orElse(EMPTY_BUTTON);
     }
 
+    /**
+     * 获取消费者按钮
+     *
+     * @param r 行
+     * @param c 列
+     * @return 返回消费者所拥有的按钮列表
+     */
     public String getConsumerPermission(R r, C c) {
         return ofNullable(table.get(r, c))
                 .map(Action::getConsumerPermission)
-                .orElse(emptyBtn);
+                .orElse(EMPTY_BUTTON);
     }
 
     public <Q extends String> String getProducerPermission(R r, C c, Function<String, Q> ops) {
@@ -85,4 +119,10 @@ public class ButtonHelper<R, C, V extends Action> {
         return ops.apply(producerPermission);
     }
 
+    private V getValue(R r, C c) {
+        V v = table.get(r, c);
+        if (v == null)
+            throw new IllegalArgumentException("传入的参数无对应的值, [r = " + r + ", c = " + c + "]");
+        return v;
+    }
 }

@@ -24,7 +24,8 @@ class BizTest {
         // TODO 如果Action有重复该怎么解决
         // TODO 编写使用教程
         // TODO 参考赵春建的实现，进行方法修改
-        String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING, (Desc desc) -> {
+        // TODO 给方法添加注释
+        String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING, (String desc) -> {
             System.err.println(desc);
             return "dd";
         });
