@@ -22,6 +22,8 @@ class BizTest {
         // TODO 对于异常的单元测试
         // TODO 设计单个参数
         // TODO 如果Action有重复该怎么解决
+        // TODO 编写使用教程
+        // TODO 参考赵春建的实现，进行方法修改
         String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING, (Desc desc) -> {
             System.err.println(desc);
             return "dd";
