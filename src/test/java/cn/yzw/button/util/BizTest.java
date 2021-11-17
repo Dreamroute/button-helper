@@ -25,6 +25,7 @@ class BizTest {
         // TODO 编写使用教程
         // TODO 参考赵春建的实现，进行方法修改
         // TODO 给方法添加注释
+        // TODO 搞一个技术分享
         String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING, (String desc) -> {
             System.err.println(desc);
             return "dd";
