@@ -21,8 +21,8 @@ import static cn.yzw.button.util.demo.Button.SEND;
 @AllArgsConstructor
 public enum DemoAction implements Action {
 
-    COMMIT(Status.INIT, null, Display.WAIT_SIDE_CONFIRM, Display.WAIT_CONFIR, null, Desc.of(CONFIRM, REFUSE, SEND)),
-    CONFIR(Status.INIT, null, Display.WAIT_SIDE_AUDIT, Display.WAIT_SIDE_AUDIT, Desc.of(CONFIRM, SEND), null);
+    COMMIT(Status.INIT, EMPTY, Display.WAIT_SIDE_CONFIRM, Display.WAIT_CONFIR, null, Desc.of(CONFIRM, REFUSE, SEND)),
+    CONFIR(Status.FINISH, EMPTY, Display.WAIT_SIDE_AUDIT, Display.WAIT_SIDE_AUDIT, Desc.of(CONFIRM, SEND), null);
 
     private final Status r;
     private final Object c;

@@ -11,6 +11,13 @@ import static java.util.Optional.ofNullable;
  */
 public interface Action {
 
+    Object EMPTY = new Object() {
+        @Override
+        public String toString() {
+            return "EMPTY";
+        }
+    };
+
     /**
      * producer状态描述
      */

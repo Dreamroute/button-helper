@@ -4,6 +4,8 @@ import cn.yzw.button.util.demo.DemoAction;
 import cn.yzw.button.util.demo.OrderAction;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * 描述：模拟业务场景测试
  *
@@ -13,6 +15,15 @@ class BizTest {
 
     @Test
     void orderTest() {
+        ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
+        String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING);
+        String producerPermission = helper.getProducerPermission(Status.INIT, AuditFlag.PENDDING);
+        assertEquals("待对方确认", producerDesc);
+        assertEquals("0", producerPermission);
+    }
+
+    @Test
+    void orderTest1() {
         ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
         System.err.println(helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING));
         System.err.println(helper.getConsumerDesc(Status.INIT, AuditFlag.PENDDING));
