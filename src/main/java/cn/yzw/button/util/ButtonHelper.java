@@ -9,14 +9,14 @@ import java.util.function.Function;
 import static java.util.Optional.ofNullable;
 
 /**
- * 描述：按钮工具类
+ * 描述：按钮工具类，获取状态，按钮这一系列操作均由此工具类完成
  *
  * @author w.dehi.2021-11-17
  */
 public class ButtonHelper<R extends Enum<?>, C, V extends Action> {
 
-    public final String ERROR_DESC = "错误状态";
-    public final String EMPTY_BUTTON = "0";
+    public static final String ERROR_DESC = "错误状态";
+    public static final String EMPTY_BUTTON = "0";
 
     private final Table<R, C, V> table = HashBasedTable.create();
 
@@ -62,27 +62,25 @@ public class ButtonHelper<R extends Enum<?>, C, V extends Action> {
     }
 
     /**
-     * 获取生产者状态
+     * 获取生产者状态，如果默认返回值不满足，默认返回值是<code>ButtonHelper.ERROR_DESC</code>，可以自定义返回值
      *
      * @param r 行
      * @param c 列
-     * @param <Q> 如果默认返回值不满足，可以自定义返回值
      * @return 返回生产者状态字符串
      */
-    public <Q extends String> String getProducerDesc(R r, C c, Function<String, Q> ops) {
+    public String getProducerDesc(R r, C c, Function<String, String> ops) {
         String desc = getProducerDesc(r, c);
         return ops.apply(desc);
     }
 
     /**
-     * 获取消费者状态
+     * 获取消费者状态，如果默认返回值不满足，默认返回值是<code>ButtonHelper.ERROR_DESC</code>，可以自定义返回值
      *
      * @param r 行
      * @param c 列
-     * @param <Q> 如果默认返回值不满足，可以自定义返回值
      * @return 返回消费者状态字符串
      */
-    public <Q extends String> String getConsumerDesc(R r, C c, Function<String, Q> ops) {
+    public String getConsumerDesc(R r, C c, Function<String, String> ops) {
         String desc = getConsumerDesc(r, c);
         return ops.apply(desc);
     }
@@ -113,9 +111,23 @@ public class ButtonHelper<R extends Enum<?>, C, V extends Action> {
                 .orElse(EMPTY_BUTTON);
     }
 
-    public <Q extends String> String getProducerPermission(R r, C c, Function<String, Q> ops) {
+    /**
+     * 获取生产者按钮列表，可以加入自定义逻辑
+     *
+     * @param r 行
+     * @param c 列
+     * @param ops 自定义逻辑
+     * @return 返回生产者二进制按钮列表
+     */
+    public String getProducerPermission(R r, C c, Function<String, String> ops) {
         V v = getValue(r, c);
         String producerPermission = v.getProducerPermission();
+        return ops.apply(producerPermission);
+    }
+
+    public String getConsumerPermission(R r, C c, Function<String, String> ops) {
+        V v = getValue(r, c);
+        String producerPermission = v.getConsumerPermission();
         return ops.apply(producerPermission);
     }
 

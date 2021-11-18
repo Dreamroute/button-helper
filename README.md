@@ -101,3 +101,7 @@ class BizTest {
 
 }
 ```
+
+### 单个状态的处理方法
+上述是2个字段决定状态，如果只有1个字段来决定，那么只需要将`OrderAction`的AuditFlag定义成`Object`类型，然后枚举列表中传入
+`Action.EMPTY`这个固定值即可

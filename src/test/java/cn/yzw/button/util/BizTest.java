@@ -4,49 +4,88 @@ import cn.yzw.button.util.demo.DemoAction;
 import cn.yzw.button.util.demo.OrderAction;
 import org.junit.jupiter.api.Test;
 
+import static cn.yzw.button.util.ButtonHelper.ERROR_DESC;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * 描述：模拟业务场景测试
+ *
+ * // TODO 为这个工具搞一个技术分享，分享给其他人，让别人少重复造轮子
  *
  * @author w.dehi.2021-11-17
  */
 class BizTest {
 
+    ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
+
     @Test
     void orderTest() {
-        ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
+        // 获取producer状态
         String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING);
-        String producerPermission = helper.getProducerPermission(Status.INIT, AuditFlag.PENDDING);
         assertEquals("待对方确认", producerDesc);
+
+        // 获取producer按钮
+        String producerPermission = helper.getProducerPermission(Status.INIT, AuditFlag.PENDDING);
         assertEquals("0", producerPermission);
+
+        // 获取consumer状态
+        String consumerDesc = helper.getConsumerDesc(Status.INIT, AuditFlag.PENDDING);
+        assertEquals("待确认", consumerDesc);
+
+        // 获取consumer按钮
+        String consumerPermission = helper.getConsumerPermission(Status.INIT, AuditFlag.PENDDING);
+        assertEquals("1101", consumerPermission);
     }
 
     @Test
-    void orderTest1() {
-        ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
-        System.err.println(helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING));
-        System.err.println(helper.getConsumerDesc(Status.INIT, AuditFlag.PENDDING));
-        System.err.println(helper.getProducerPermission(Status.INIT, AuditFlag.PENDDING));
-        System.err.println(helper.getConsumerPermission(Status.INIT, AuditFlag.PENDDING));
-
-        // TODO 对于异常的单元测试
-        // TODO 设计单个参数
-        // TODO 如果Action有重复该怎么解决
-        // TODO 编写使用教程
-        // TODO 参考赵春建的实现，进行方法修改
-        // TODO 给方法添加注释
-        // TODO 搞一个技术分享
-        String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING, (String desc) -> {
-            System.err.println(desc);
-            return "dd";
+    void getPermissionTest() {
+        String producerPermission = helper.getProducerPermission(Status.INIT, AuditFlag.PENDDING, permission -> {
+            System.err.println(permission);
+            return permission;
         });
+        String consumerPermission = helper.getConsumerPermission(Status.INIT, AuditFlag.PENDDING, permission -> {
+            System.err.println(permission);
+            return permission;
+        });
+        assertEquals("0", producerPermission);
+        assertEquals("1101", consumerPermission);
     }
 
+    /**
+     * 自定义返回值（如果获取不到对应的状态）
+     */
     @Test
-    void demoTest() {
-        ButtonHelper<Status, Object, DemoAction> helper = new ButtonHelper<>(DemoAction.values());
-        System.err.println(helper.getConsumerDesc(Status.INIT, null));
+    void customErrorMsgTest() {
+        String wrongDesc = helper.getConsumerDesc(Status.FINISH, AuditFlag.PENDDING, desc -> {
+            if (desc.equals(ButtonHelper.ERROR_DESC))
+                desc = "Wrong";
+            return desc;
+        });
+        assertEquals("Wrong", wrongDesc);
+    }
+
+    /**
+     * 如果获取不到响应的状态，可以跑错
+     */
+    @Test
+    void throwExTest() {
+        assertThrows(IllegalArgumentException.class, () ->
+                helper.getConsumerDesc(Status.FINISH, AuditFlag.PENDDING, desc -> {
+                    if (desc.equals(ERROR_DESC)) {
+                        throw new IllegalArgumentException("找不到对应状态");
+                    }
+                    return desc;
+                })
+        );
+    }
+
+    /**
+     * 重复key异常测试
+     */
+    @Test
+    void duplicateKeyTest() {
+        assertThrows(IllegalArgumentException.class, () -> new ButtonHelper<>(DemoAction.values()));
     }
 
 }

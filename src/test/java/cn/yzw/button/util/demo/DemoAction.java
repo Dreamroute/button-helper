@@ -22,7 +22,7 @@ import static cn.yzw.button.util.demo.Button.SEND;
 public enum DemoAction implements Action {
 
     COMMIT(Status.INIT, EMPTY, Display.WAIT_SIDE_CONFIRM, Display.WAIT_CONFIR, null, Desc.of(CONFIRM, REFUSE, SEND)),
-    CONFIR(Status.FINISH, EMPTY, Display.WAIT_SIDE_AUDIT, Display.WAIT_SIDE_AUDIT, Desc.of(CONFIRM, SEND), null);
+    CONFIR(Status.INIT, EMPTY, Display.WAIT_SIDE_AUDIT, Display.WAIT_SIDE_AUDIT, Desc.of(CONFIRM, SEND), null);
 
     private final Status r;
     private final Object c;
