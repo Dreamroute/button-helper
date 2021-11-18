@@ -29,7 +29,7 @@
 ```xml
 <dependency>
     <groupId>cn.yzw</groupId>
-    <artifactId>button-util</artifactId>
+    <artifactId>button-helper</artifactId>
     <version>最新版本</version>
 </dependency>
 

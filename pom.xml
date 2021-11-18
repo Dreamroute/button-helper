@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.yzw</groupId>
-    <artifactId>button-util</artifactId>
+    <artifactId>button-helper</artifactId>
     <version>${revision}</version>
 
     <properties>
