@@ -19,6 +19,9 @@ class BizTest {
 
     ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
 
+    /**
+     * 常规测试
+     */
     @Test
     void orderTest() {
         // 获取producer状态
@@ -38,6 +41,9 @@ class BizTest {
         assertEquals("1101", consumerPermission);
     }
 
+    /**
+     * 获取按钮，带有自定义逻辑
+     */
     @Test
     void getPermissionTest() {
         String producerPermission = helper.getProducerPermission(Status.INIT, AuditFlag.PENDDING, permission -> {
