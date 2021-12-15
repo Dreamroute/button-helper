@@ -1,5 +1,6 @@
 package cn.yzw.button.util;
 
+import cn.yzw.button.util.demo.Button;
 import cn.yzw.button.util.demo.DemoAction;
 import cn.yzw.button.util.demo.OrderAction;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * 描述：模拟业务场景测试
- *
+ * <p>
  * // TODO 为这个工具搞一个技术分享，分享给其他人，让别人少重复造轮子
  *
  * @author w.dehi.2021-11-17
@@ -56,6 +57,15 @@ class BizTest {
         });
         assertEquals("0", producerPermission);
         assertEquals("1101", consumerPermission);
+    }
+
+    /**
+     * 测试0开头的按钮列表，比如00101这种
+     */
+    @Test
+    void startZeroTest() {
+        String producerPermission = helper.getProducerPermission(Status.FINISH, AuditFlag.INIT1);
+        System.err.println(producerPermission);
     }
 
     /**

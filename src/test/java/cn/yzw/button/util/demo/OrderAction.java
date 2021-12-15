@@ -22,7 +22,8 @@ import static cn.yzw.button.util.demo.Button.SEND;
 public enum OrderAction implements Action {
 
     COMMIT(Status.INIT, AuditFlag.PENDDING, Display.WAIT_SIDE_CONFIRM, Display.WAIT_CONFIR, null, Desc.of(CONFIRM, REFUSE, SEND)),
-    CONFIR(Status.INIT, AuditFlag.INIT1, Display.WAIT_SIDE_AUDIT, Display.WAIT_SIDE_AUDIT, Desc.of(CONFIRM, SEND), null);
+    CONFIR(Status.INIT, AuditFlag.INIT1, Display.WAIT_SIDE_AUDIT, Display.WAIT_SIDE_AUDIT, Desc.of(CONFIRM, SEND), null),
+    FINISH(Status.FINISH, AuditFlag.INIT1, Display.WAIT_SIDE_CONFIRM, Display.WAIT_AUDIT, Desc.of(Button.SEND, Button.SEND_AGAIN), null);
 
     private final Status r;
     private final AuditFlag c;

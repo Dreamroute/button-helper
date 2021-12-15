@@ -26,10 +26,11 @@ public class ButtonHelper<R extends Enum<?>, C, V extends Action> {
             R r = (R) ReflectUtil.getFieldValue(action, "r");
             C c = (C) ReflectUtil.getFieldValue(action, "c");
             V existValue = table.get(r, c);
-            if (existValue != null)
+            if (existValue != null) {
                 throw new IllegalArgumentException("你的[r = " + r + ", c = " + c + "]存在重复！");
-            else
+            } else {
                 table.put(r, c, (V) action);
+            }
         }
     }
 
@@ -133,8 +134,9 @@ public class ButtonHelper<R extends Enum<?>, C, V extends Action> {
 
     private V getValue(R r, C c) {
         V v = table.get(r, c);
-        if (v == null)
+        if (v == null) {
             throw new IllegalArgumentException("传入的参数无对应的值, [r = " + r + ", c = " + c + "]");
+        }
         return v;
     }
 }

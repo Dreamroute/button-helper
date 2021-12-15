@@ -1,6 +1,10 @@
 package cn.yzw.button.util;
 
+import cn.hutool.core.util.EnumUtil;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Optional.ofNullable;
 
@@ -53,10 +57,17 @@ public interface Action {
     }
 
     default String processPermission(Desc[] btn) {
+        int lenght = 0;
+        if (btn != null && btn.length > 0) {
+            //noinspection unchecked
+            lenght = EnumUtil.getNames((Class<? extends Enum<?>>) btn[0].getClass()).size();
+        }
         int permis = Arrays.stream(ofNullable(btn).orElseGet(() -> new Desc[0]))
                 .map(e -> 0B1 << ((Enum<?>) e).ordinal())
                 .reduce(0B0, (r, c) -> r | c);
-        return new StringBuilder(Integer.toBinaryString(permis)).reverse().toString();
+        String btnList = new StringBuilder(Integer.toBinaryString(permis)).reverse().toString();
+        // 给右侧0补齐
+        return StringUtils.rightPad(btnList, lenght, '0');
     }
 
 }
