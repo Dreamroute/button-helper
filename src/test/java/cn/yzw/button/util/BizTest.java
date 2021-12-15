@@ -60,12 +60,12 @@ class BizTest {
     }
 
     /**
-     * 测试0开头的按钮列表，比如00101这种
+     * 测试0开头的按钮列表，比如001010这种
      */
     @Test
     void startZeroTest() {
         String producerPermission = helper.getProducerPermission(Status.FINISH, AuditFlag.INIT1);
-        System.err.println(producerPermission);
+        assertEquals("000110", producerPermission);
     }
 
     /**
