@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class BizTest {
 
-    ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
+    ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.class);
 
     /**
      * 常规测试
@@ -39,7 +39,7 @@ class BizTest {
 
         // 获取consumer按钮
         String consumerPermission = helper.getConsumerPermission(Status.INIT, AuditFlag.PENDDING);
-        assertEquals("1101", consumerPermission);
+        assertEquals("110100", consumerPermission);
     }
 
     /**
@@ -56,7 +56,7 @@ class BizTest {
             return permission;
         });
         assertEquals("0", producerPermission);
-        assertEquals("1101", consumerPermission);
+        assertEquals("110100", consumerPermission);
     }
 
     /**
@@ -101,7 +101,7 @@ class BizTest {
      */
     @Test
     void duplicateKeyTest() {
-        assertThrows(IllegalArgumentException.class, () -> new ButtonHelper<>(DemoAction.values()));
+        assertThrows(IllegalArgumentException.class, () -> new ButtonHelper<>(DemoAction.class));
     }
 
 }

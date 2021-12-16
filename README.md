@@ -97,7 +97,7 @@ class BizTest {
 
     @Test
     void orderTest() {
-        ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.values());
+        ButtonHelper<Status, AuditFlag, OrderAction> helper = new ButtonHelper<>(OrderAction.class);
         String producerDesc = helper.getProducerDesc(Status.INIT, AuditFlag.PENDDING);
         String producerPermission = helper.getProducerPermission(Status.INIT, AuditFlag.PENDDING);
         assertEquals("待对方确认", producerDesc);

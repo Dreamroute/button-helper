@@ -3,7 +3,9 @@ package cn.yzw.button.util;
 import cn.hutool.core.util.ReflectUtil;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import org.apache.commons.lang3.EnumUtils;
 
+import java.util.List;
 import java.util.function.Function;
 
 import static java.util.Optional.ofNullable;
@@ -21,8 +23,9 @@ public class ButtonHelper<R extends Enum<?>, C, V extends Action> {
     private final Table<R, C, V> table = HashBasedTable.create();
 
     @SuppressWarnings("unchecked")
-    public ButtonHelper(Action[] actions) {
-        for (Action action : actions) {
+    public ButtonHelper(Class actionCls) {
+        List actions = EnumUtils.getEnumList(actionCls);
+        for (Object action : actions) {
             R r = (R) ReflectUtil.getFieldValue(action, "r");
             C c = (C) ReflectUtil.getFieldValue(action, "c");
             V existValue = table.get(r, c);
